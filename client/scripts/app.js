@@ -17,12 +17,23 @@ var App = {
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
+    App.autoRefresh();
   },
 
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
       // examine the response from the server request:
+      // render all the messages
       console.log(data);
+      data.results.filter(message => message.text && message.username &&  message.roomname)
+      .forEach(message => {
+        MessagesView.renderMessage(message)}
+      );
+
+      var roomNames = data.results.filter(message => message.roomname).forEach(element => {
+        console.log(element.roomname);
+        Rooms.add(element.roomname)}
+      );
 
       callback();
     });
@@ -36,5 +47,14 @@ var App = {
   stopSpinner: function() {
     App.$spinner.fadeOut('fast');
     FormView.setStatus(false);
+  },
+
+  autoRefresh: function() {
+    // TODO clear html before re-rendering
+    setInterval(function() {
+      App.fetch();
+      console.log('trigged');
+    },60000);
   }
+
 };
