@@ -1,5 +1,11 @@
 var Messages = {
 
+  messageRightNow:{
+    username:'Di',
+    text:'',
+    roomname:''
+  },
+
 };
 
 // //var message = {

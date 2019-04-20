@@ -3,11 +3,14 @@ var App = {
   $spinner: $('.spinner img'),
 
   username: 'anonymous',
+  $refresh: $('.refreshChat'),
+  roomsRightNow: "lobby",
+  $chat: $('#chats'),
 
-  roomsRightNow: 'lobby',
 
   initialize: function() {
     App.username = window.location.search.substr(10);
+    console.log("username:",App.username);
 
     FormView.initialize();
     RoomsView.initialize();
@@ -17,7 +20,12 @@ var App = {
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
-    App.autoRefresh();
+    App.$refresh.on('click',function(){
+      App.$chat.html('');
+      App.fetch();
+    });
+
+
   },
 
   fetch: function(callback = ()=>{}) {
@@ -31,9 +39,10 @@ var App = {
       );
 
       var roomNames = data.results.filter(message => message.roomname).forEach(element => {
-        console.log(element.roomname);
-        Rooms.add(element.roomname)}
+        // console.log(element.roomname);
+        Rooms.renderRoomsList(element.roomname)}
       );
+      // RoomsView.$select.val(App.roomsRightNow);
 
       callback();
     });
@@ -49,12 +58,15 @@ var App = {
     FormView.setStatus(false);
   },
 
-  autoRefresh: function() {
-    // TODO clear html before re-rendering
-    setInterval(function() {
-      App.fetch();
-      console.log('trigged');
-    },60000);
-  }
+
+  // refresh: function() {
+  //   // setInterval(function() {
+  //   //   console.log(this);
+  //   //   App.$chat.html('Refershed it ');
+  //   //   App.fetch();
+  //   //   console.log('trigged');
+  //   // },60000);
+
+  // }
 
 };
