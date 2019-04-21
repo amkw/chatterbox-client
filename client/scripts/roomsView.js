@@ -36,9 +36,6 @@ var RoomsView = {
       })
     })
 
-  // on select
-  // re-render chats with roomname = selected
-  // MessagesView.render(message);
   }
 
 };

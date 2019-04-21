@@ -10,17 +10,20 @@ var App = {
 
   initialize: function() {
     App.username = window.location.search.substr(10);
+
     console.log("username:",App.username);
 
     FormView.initialize();
     RoomsView.initialize();
     MessagesView.initialize();
 
+    Friends.initialize();
+
     // Fetch initial batch of messages
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
-    App.$refresh.on('click',function(){
+    App.$refresh.on('click', function(){
       App.$chat.html('');
       App.fetch();
     });
